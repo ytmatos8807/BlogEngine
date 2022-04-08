@@ -154,6 +154,13 @@ namespace Blog.Engine.Repository
             logger.Info("Saliendo del servicio GetStatusPost. Publicacion Id [{0}]", postsId);
             return result;
         }
-        
+
+        //public Resultado 
+        //(postsId, comment)
+        //    //insert del comentario
+
+        //    //verificar que publicacion este en estado comentada
+        //    //
+
     }
 }

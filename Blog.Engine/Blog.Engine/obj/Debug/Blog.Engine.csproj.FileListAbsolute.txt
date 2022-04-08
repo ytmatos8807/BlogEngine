@@ -183,3 +183,6 @@ C:\Users\roshka\Documents\GitHub\BlogEngine\Blog.Engine\Blog.Engine\obj\Debug\Bl
 C:\Users\roshka\Documents\GitHub\BlogEngine\Blog.Engine\Blog.Engine\obj\Debug\Blog.Engine.csproj.CopyComplete
 C:\Users\roshka\Documents\GitHub\BlogEngine\Blog.Engine\Blog.Engine\obj\Debug\Blog.Engine.dll
 C:\Users\roshka\Documents\GitHub\BlogEngine\Blog.Engine\Blog.Engine\obj\Debug\Blog.Engine.pdb
+C:\Users\roshka\Documents\GitHub\BlogEngine\Blog.Engine\Blog.Engine\bin\Swashbuckle.Core.dll
+C:\Users\roshka\Documents\GitHub\BlogEngine\Blog.Engine\Blog.Engine\bin\WebActivatorEx.dll
+C:\Users\roshka\Documents\GitHub\BlogEngine\Blog.Engine\Blog.Engine\bin\Blog.Engine.xml

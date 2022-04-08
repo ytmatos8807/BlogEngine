@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Blog.Engine</name>
+    </assembly>
+    <members>
+        <member name="F:Blog.Engine.Repository.BlogEngineRepositorio.QRY_GET_PUBLISHED_POSTS">
+            <summary>
+            Obtiene una lista de publicaciones publicadas
+            </summary>
+        </member>
+        <member name="F:Blog.Engine.Repository.BlogEngineRepositorio.QRY_GET_COMMENT_AMOUNT">
+            <summary>
+            Obtiene la cantidad de comentarios que tiene una publicacion X
+            </summary>
+        </member>
+        <member name="F:Blog.Engine.Repository.BlogEngineRepositorio.QRY_GET_STATUS_POSTS">
+            <summary>
+            Obtiene el estado de una publicacion X
+            </summary>
+        </member>
+        <member name="M:Blog.Engine.Repository.BlogEngineRepositorio.GetListPublishedPosts">
+            <summary>
+            Obteniendo la lista de publicaciones publicadas sin restriccion de rol
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Blog.Engine.Repository.BlogEngineRepositorio.GetAmountCommet(System.Int32)">
+            <summary>
+            Obtiene la cantidad de comentarios que tiene una publicacion X
+            </summary>
+            <param name="postsId">id de la publicacion</param>
+            <returns></returns>
+        </member>
+        <member name="M:Blog.Engine.Repository.BlogEngineRepositorio.GetStatusPost(System.Int32)">
+            <summary>
+            Obtiene el estado de una publicacion dada
+            </summary>
+            <param name="postId"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
