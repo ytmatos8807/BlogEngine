@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Blog.Engine.Repository
+namespace Blog.Engine
 {
-    public interface IBlogEngineRepositorio
+    interface IBlogEngineService
     {
-        List<Posts> GetListPublishedPosts();
+        List<Posts> get();
     }
 }

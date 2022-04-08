@@ -146,6 +146,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="IBlogEngineRest.cs" />
+    <Compile Include="IBlogEngineService.cs" />
+    <Compile Include="Implementations\BlogEngineService.cs" />
+    <Compile Include="Implementations\ImplementacionAPIBlog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\BlogEngineRepositorio.cs" />
     <Compile Include="Repository\IBlogEngineRepositorio.cs" />
@@ -165,7 +168,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Domain\" />
-    <Folder Include="Implementations\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
