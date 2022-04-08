@@ -25,6 +25,16 @@ namespace Blog.Engine.Repository
         /// Obtiene una lista de publicaciones publicadas
         /// </summary>
         private const string QRY_GET_PUBLISHED_POSTS = " SELECT * FROM blog_engine.posts where status = 'published' ";
+
+        /// <summary>
+        /// Obtiene la cantidad de comentarios que tiene una publicacion X
+        /// </summary>
+        private const string QRY_GET_COMMENT_AMOUNT = " SELECT COUNT(*) FROM blog_engine.comment where id_posts = @paramId ";
+
+        /// <summary>
+        /// Obtiene el estado de una publicacion X
+        /// </summary>
+        private const string QRY_GET_STATUS_POSTS = " SELECT status  FROM blog_engine.posts where id_posts = @paramId ";
         #endregion
 
         /// <summary>
@@ -52,7 +62,7 @@ namespace Blog.Engine.Repository
                         Posts posts = new Posts();
                         var postsId = (reader.GetValue(reader.GetOrdinal("id_posts")).ToString() != null) ? reader.GetValue(reader.GetOrdinal("id_posts")).ToString().Trim() : null;
                         var status = (reader.GetValue(reader.GetOrdinal("status")).ToString() != null) ? reader.GetValue(reader.GetOrdinal("status")).ToString().Trim() : null;
-                        var commentId = (reader.GetValue(reader.GetOrdinal("id_comment")).ToString() != null) ? reader.GetValue(reader.GetOrdinal("id_comment")).ToString().Trim() : null;
+                        var commentAmount = this.GetAmountCommet(Int32.Parse(postsId));
                         var title = (reader.GetValue(reader.GetOrdinal("title")).ToString() != null) ? reader.GetValue(reader.GetOrdinal("title")).ToString().Trim() : null;
                         var content = (reader.GetValue(reader.GetOrdinal("content")).ToString() != null) ? reader.GetValue(reader.GetOrdinal("content")).ToString().Trim() : null;
                         var author = (reader.GetValue(reader.GetOrdinal("author")).ToString() != null) ? reader.GetValue(reader.GetOrdinal("author")).ToString().Trim() : null;
@@ -73,5 +83,77 @@ namespace Blog.Engine.Repository
             return result;
         }
 
+        /// <summary>
+        /// Obtiene la cantidad de comentarios que tiene una publicacion X
+        /// </summary>
+        /// <param name="postsId">id de la publicacion</param>
+        /// <returns></returns>
+        private int GetAmountCommet(int postsId)
+        {
+            logger.Info("Iniciando servicio GetAmountCommet");
+
+            Int32 result = 0;
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(_connString);
+                conn.Open();
+
+                logger.Debug("Vamos a ejecutar el siguiente qry [{0}]", QRY_GET_COMMENT_AMOUNT);
+                MySqlCommand cmd = new MySqlCommand(QRY_GET_COMMENT_AMOUNT, conn);
+                cmd.Parameters.AddWithValue("@paramId", postsId);
+
+                result = int.Parse(cmd.ExecuteScalar().ToString());
+                logger.Debug("Luego de obtener los registros obtenidos. Obtuvimos [{0}] comentarios.", result);
+            }
+            catch (Exception e)
+            {
+                logger.Error("Error al obtener la csantidad de comentarios de la publicacion [{0}] , Message [{1}] - StackTrace [{2}] ",postsId, e.Message, e.StackTrace);
+                throw;
+            }
+
+            logger.Info("Saliendo del servicio GetAmountCommet");
+            return result;
+
+        }
+
+        /// <summary>
+        /// Obtiene el estado de una publicacion dada
+        /// </summary>
+        /// <param name="postId"></param>
+        /// <returns></returns>
+        private string GetStatusPost(int postsId)
+        {
+            logger.Info("Iniciando servicio GetStatusPost. Publicacion Id [{0}]", postsId);
+
+            string result = string.Empty;
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(_connString);
+                conn.Open();
+
+                logger.Debug("Vamos a ejecutar el siguiente qry [{0}]", QRY_GET_STATUS_POSTS);
+                MySqlCommand cmd = new MySqlCommand(QRY_GET_STATUS_POSTS, conn);
+                cmd.Parameters.AddWithValue("@paramId", postsId);
+
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    logger.Debug("Vamos a leer los registros obtenidos");
+                    while (reader.Read())
+                    {
+                        result = (reader.GetValue(reader.GetOrdinal("status")).ToString() != null) ? reader.GetValue(reader.GetOrdinal("status")).ToString().Trim() : string.Empty;
+                    }
+                    logger.Debug("Luego de obtener los registros obtenidos. Obtuvimos [{0}] estado .", result);
+                }
+            }
+            catch (Exception e)
+            {
+                logger.Error("Error al obtener el estado de la publicacion  [{0}], Message [{1}] - StackTrace [{2}] ", e.Message, e.StackTrace);
+                throw;
+            }
+
+            logger.Info("Saliendo del servicio GetStatusPost. Publicacion Id [{0}]", postsId);
+            return result;
+        }
+        
     }
 }
