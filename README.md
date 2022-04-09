@@ -13,4 +13,11 @@ The Technologies used:
  
  The credentials for the connection to the MYSQL database are as follows:
  
+  user: adminBlog
+  pass: adminBlog
+ 
+ In the api webconfig the connectionStrings is already configured:
+ 
  ![alt text](https://github.com/ytmatos8807/BlogEngine/blob/main/Util/IMG/ConnectionString.JPG)
+ 
+ The database script and postamn collection are located within the project in the following location:
