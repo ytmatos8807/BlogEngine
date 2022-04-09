@@ -26,9 +26,9 @@ The Technologies used:
   
   * Projects are located in the following repositories:
   
-  https://github.com/ytmatos8807/BlogEngine
+  $ git clone https://github.com/ytmatos8807/BlogEngine.git
   
-  https://github.com/ytmatos8807/Blog.Engine.Base
+  $ git clone https://github.com/ytmatos8807/Blog.Engine.Base.git
   
  To view the application in the browser and the swagger go to the url:  
   
