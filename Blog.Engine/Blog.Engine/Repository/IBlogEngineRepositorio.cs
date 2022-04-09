@@ -10,5 +10,6 @@ namespace Blog.Engine.Repository
     {
         List<Posts> GetListPublishedPosts();
         Result AddCommentPosts(int postsId, string comment);
+        ProcessPostsResponse ProcessPostsWriter(string actionProcess, Posts posts, string author);
     }
 }

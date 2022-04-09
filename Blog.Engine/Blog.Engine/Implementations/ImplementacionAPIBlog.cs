@@ -24,6 +24,10 @@ namespace Blog.Engine.Implementations
         }
         #endregion
 
+        /// <summary>
+        /// Obteniendo la lista de publicaciones publicadas sin restriccion de rol
+        /// </summary>
+        /// <returns></returns>
         public List<Posts> GetListPublishedPosts()
         {
             List<Posts> result = new List<Posts>();
@@ -39,6 +43,12 @@ namespace Blog.Engine.Implementations
             return result;
         }
 
+        /// <summary>
+        /// Insertando comentario en una publicacion X
+        /// </summary>
+        /// <param name="postsId">id de la publicacion</param>
+        /// <param name="comment">comentario a insertar</param>
+        /// <returns></returns>
         public Result AddCommentPosts(int postsId, string comment)
         {
             Result result = new Result();
@@ -49,6 +59,28 @@ namespace Blog.Engine.Implementations
             catch (Exception e)
             {
                 logger.Error("Error al insertar comenario en publicacions publicadas, Message [{0}] - StackTrace [{1}] ", e.Message, e.StackTrace);
+                throw;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Procesa todas las acciones que puede ejecutar un Escritor
+        /// </summary>
+        /// <param name="actionProcess">Accion recibida</param>
+        /// <param name="posts">publicacion recibida</param>
+        /// <param name="author">autor de la publicacion</param>
+        /// <returns></returns>
+        public ProcessPostsResponse ProcessPostsWriter(string actionProcess, Posts posts, string author)
+        {
+            ProcessPostsResponse result = new ProcessPostsResponse();
+            try
+            {
+                result = blogRepositorio.ProcessPostsWriter(actionProcess, posts, author);
+            }
+            catch (Exception e)
+            {
+                logger.Error("Error al procesar las publicacions de un escritor, Message [{0}] - StackTrace [{1}] ", e.Message, e.StackTrace);
                 throw;
             }
             return result;

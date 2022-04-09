@@ -10,5 +10,6 @@ namespace Blog.Engine
     {
         List<Posts> get();
         Result post(int postsId, string comment);
+        ProcessPostsResponse postprocess(string actionProcess, Posts posts, string author);
     }
 }

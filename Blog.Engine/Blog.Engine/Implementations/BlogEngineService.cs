@@ -17,5 +17,10 @@ namespace Blog.Engine.Implementations
         {
             return new ImplementacionAPIBlog().AddCommentPosts(postsId, comment);
         }
+
+        public ProcessPostsResponse postprocess(string actionProcess, Posts posts, string author)
+        {
+            return new ImplementacionAPIBlog().ProcessPostsWriter(actionProcess, posts, author);
+        }
     }
 }

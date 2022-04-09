@@ -62,6 +62,12 @@ namespace Blog.Engine.Repository
         /// </summary>
         private const string QRY_GET_AUTHOR_ROL = " SELECT roles FROM blog_engine.users where title = @paramTitle ";
 
+        /// <summary>
+        /// Envia una publicacion de un escritor
+        /// </summary>
+        private const string QRY_SUBMIT_POSTS = " UPDATE `blog_engine`.`posts` SET `title` = @paramTitle ,`content` = @paramContent `status` = @paramStatus,  `blocked` = 'S' " +
+                                                "  WHERE (`id_posts` = @paramIdPosts) ";
+
         #endregion
 
         /// <summary>
@@ -400,6 +406,46 @@ namespace Blog.Engine.Repository
             logger.Info("Saliendo del servicio GetRolesAuthor. Autor Id [{0}]", author);
             return result;
         }
+
+        private int SubmitWriterPosts(Posts posts)
+        {
+            logger.Info("Iniciando servicio SubmitWriterPosts. Publicacion Id [{0}]", posts.PostsId);
+
+            int affectRow = 0;
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(_connString);
+                conn.Open();
+
+                logger.Debug("Vamos a ejecutar el siguiente qry [{0}]", QRY_SUBMIT_POSTS);
+                MySqlCommand cmd = new MySqlCommand(QRY_SUBMIT_POSTS, conn);
+                cmd.Prepare();
+
+                cmd.Parameters.AddWithValue("@paramTitle", posts.Title);
+                cmd.Parameters.AddWithValue("@paramContent", posts.Content);
+                cmd.Parameters.AddWithValue("@paramIdPosts", posts.PostsId);
+                cmd.Parameters.AddWithValue("@paramStatus", EnumStatePosts.PendingApproval.ToString());
+
+                affectRow = cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                logger.Error("Error al enviar una publicacion del escritor [{0}], Message [{1}] - StackTrace [{2}] ", e.Message, e.StackTrace);
+                throw;
+            }
+
+            logger.Info("Saliendo del servicio SubmitWriterPosts. Publicacion Id [{0}]", posts.PostsId);
+            return affectRow;
+
+        }
+
+        /// <summary>
+        /// Procesa todas las acciones que puede ejecutar un Escritor
+        /// </summary>
+        /// <param name="actionProcess">Accion recibida</param>
+        /// <param name="posts">publicacion recibida</param>
+        /// <param name="author">autor de la publicacion</param>
+        /// <returns></returns>
         public ProcessPostsResponse ProcessPostsWriter(string actionProcess, Posts posts, string author)
         {
             logger.Info("Iniciando servicio ProcessPostsResponse.");
@@ -466,15 +512,28 @@ namespace Blog.Engine.Repository
                             }
                             break;
                         case EnumActionsPosts.SubmitPosts:
+                            affectRow = this.SubmitWriterPosts(posts);
+                            if (affectRow == 1)
+                            {
+                                result.State = ResultState.OK;
+                                result.Message = "Envio de publicación del Autor" + author + "exitoso";
+                            }
+                            else
+                            {
+                                result.State = ResultState.ERROR;
+                                result.Message = "Ocurrió  un error Enviando publicación del Autor" + author + "exitoso";
+                            }
                             break;
                         default:
+                            result.State = ResultState.ERROR;
+                            result.Message = "Acción recibida no válida";
                             break;
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                logger.Error("Error al obtener la lista de publicaciones publicados, Message [{0}] - StackTrace [{1}] ", e.Message, e.StackTrace);
                 throw;
             }
             logger.Info("Saliendo de servicio ProcessPostsResponse.");

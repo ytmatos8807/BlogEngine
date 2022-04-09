@@ -4,6 +4,52 @@
         <name>Blog.Engine</name>
     </assembly>
     <members>
+        <member name="M:Blog.Engine.Controllers.BlogEngineController.Get">
+            <summary>
+            Obteniendo la lista de publicaciones publicadas sin restriccion de rol
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Blog.Engine.Controllers.BlogEngineController.Post(System.Int32,System.String)">
+            <summary>
+            Insertando comentario en una publicacion X
+            </summary>
+            <param name="postsId">id de la publicacion</param>
+            <param name="comment">comentario a insertar</param>
+            <returns></returns>
+        </member>
+        <member name="M:Blog.Engine.Controllers.BlogEngineController.PostProcess(System.String,Blog.Engine.Base.Posts,System.String)">
+            <summary>
+            Procesa todas las acciones que puede ejecutar un Escritor
+            </summary>
+            <param name="actionProcess">Accion recibida</param>
+            <param name="posts">publicacion recibida</param>
+            <param name="author">autor de la publicacion</param>
+            <returns></returns>
+        </member>
+        <member name="M:Blog.Engine.Implementations.ImplementacionAPIBlog.GetListPublishedPosts">
+            <summary>
+            Obteniendo la lista de publicaciones publicadas sin restriccion de rol
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Blog.Engine.Implementations.ImplementacionAPIBlog.AddCommentPosts(System.Int32,System.String)">
+            <summary>
+            Insertando comentario en una publicacion X
+            </summary>
+            <param name="postsId">id de la publicacion</param>
+            <param name="comment">comentario a insertar</param>
+            <returns></returns>
+        </member>
+        <member name="M:Blog.Engine.Implementations.ImplementacionAPIBlog.ProcessPostsWriter(System.String,Blog.Engine.Base.Posts,System.String)">
+            <summary>
+            Procesa todas las acciones que puede ejecutar un Escritor
+            </summary>
+            <param name="actionProcess">Accion recibida</param>
+            <param name="posts">publicacion recibida</param>
+            <param name="author">autor de la publicacion</param>
+            <returns></returns>
+        </member>
         <member name="F:Blog.Engine.Repository.BlogEngineRepositorio.QRY_GET_PUBLISHED_POSTS">
             <summary>
             Obtiene una lista de publicaciones publicadas
@@ -27,6 +73,26 @@
         <member name="F:Blog.Engine.Repository.BlogEngineRepositorio.QRY_GET_POSTS">
             <summary>
             Obtiene una lista de publicaciones 
+            </summary>
+        </member>
+        <member name="F:Blog.Engine.Repository.BlogEngineRepositorio.QRY_POST_POSTS">
+            <summary>
+            Inserta una publicacion de un escritor
+            </summary>
+        </member>
+        <member name="F:Blog.Engine.Repository.BlogEngineRepositorio.QRY_UPDATE_POSTS">
+            <summary>
+            Actualiza una publicacion de un escritor
+            </summary>
+        </member>
+        <member name="F:Blog.Engine.Repository.BlogEngineRepositorio.QRY_GET_AUTHOR_ROL">
+            <summary>
+            Qry para verificar el rol de un usuario
+            </summary>
+        </member>
+        <member name="F:Blog.Engine.Repository.BlogEngineRepositorio.QRY_SUBMIT_POSTS">
+            <summary>
+            Envia una publicacion de un escritor
             </summary>
         </member>
         <member name="M:Blog.Engine.Repository.BlogEngineRepositorio.GetListPublishedPosts">
@@ -69,6 +135,29 @@
             Inserta una publicacion
             </summary>
             <param name="posts">publicacion recivida</param>
+            <returns></returns>
+        </member>
+        <member name="M:Blog.Engine.Repository.BlogEngineRepositorio.EditWriterPost(Blog.Engine.Base.Posts)">
+            <summary>
+            Edita una publicacion de un escritor
+            </summary>
+            <param name="posts">publicacion enviada</param>
+            <returns></returns>
+        </member>
+        <member name="M:Blog.Engine.Repository.BlogEngineRepositorio.GetRolesAuthor(System.String)">
+            <summary>
+            Obteniendo el rol de un autor
+            </summary>
+            <param name="author">autor recibido</param>
+            <returns></returns>
+        </member>
+        <member name="M:Blog.Engine.Repository.BlogEngineRepositorio.ProcessPostsWriter(System.String,Blog.Engine.Base.Posts,System.String)">
+            <summary>
+            Procesa todas las acciones que puede ejecutar un Escritor
+            </summary>
+            <param name="actionProcess">Accion recibida</param>
+            <param name="posts">publicacion recibida</param>
+            <param name="author">autor de la publicacion</param>
             <returns></returns>
         </member>
     </members>
