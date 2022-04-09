@@ -10,6 +10,11 @@ The Technologies used:
  *  Web API 
  * .Net Framework 47.2
  *  MySql 8.0
+ *  Html
+ *  CSS
+ *  JavaScript
+ *  Razor
+ * jQuery
  
  The credentials for the connection to the MYSQL database are as follows:
  
@@ -30,11 +35,16 @@ The Technologies used:
   
   $ git clone https://github.com/ytmatos8807/Blog.Engine.Base.git
   
+  $ git clone https://github.com/ytmatos8807/BlogEngine.git
+  
+  
  To view the application in the browser and the swagger go to the url:  
   
  url swagger -  https://localhost:44362/swagger/ui/index
   
  url api - https://localhost:44362/
+ 
+ url front - https://localhost:44318/
   
   
  
