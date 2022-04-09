@@ -68,6 +68,11 @@ namespace Blog.Engine.Repository
         private const string QRY_SUBMIT_POSTS = " UPDATE `blog_engine`.`posts` SET `title` = @paramTitle ,`content` = @paramContent `status` = @paramStatus,  `blocked` = 'S' " +
                                                 "  WHERE (`id_posts` = @paramIdPosts) ";
 
+        /// <summary>
+        /// Aprueba una publicacion
+        /// </summary>
+        private const string QRY_APPROVE_POSTS = " UPDATE `blog_engine`.`posts` SET `status` = @paramStatus  WHERE (`id_posts` = @paramIdPosts) ";
+
         #endregion
 
         /// <summary>
@@ -225,7 +230,9 @@ namespace Blog.Engine.Repository
                 conn.Open();
 
                 logger.Debug("Vamos a ejecutar el siguiente qry [{0}]", QRY_POST_COMMENT);
-                MySqlCommand cmd = new MySqlCommand(QRY_POST_COMMENT, conn);
+
+                var QRY_RESULT = (status == EnumStatePosts.Reject.ToString()) ? string.Format(QRY_POST_COMMENT, " and comment_reject = 'S' ") : QRY_POST_COMMENT;
+                MySqlCommand cmd = new MySqlCommand(QRY_RESULT, conn);
                 cmd.Prepare();
                 cmd.Parameters.AddWithValue("@paramComment", comment);
                 cmd.Parameters.AddWithValue("@paramIdPosts", postsId);
@@ -246,8 +253,9 @@ namespace Blog.Engine.Repository
         /// Obteniendo el listado de publicaciones del escritor
         /// </summary>
         /// <param name="author"></param>
+        /// <param name="rol"></param>
         /// <returns></returns>
-        private List<Posts> GetListPosts(string author)
+        private List<Posts> GetListPosts(string author, string rol = "")
         {
             logger.Info("Iniciando servicio GetListPosts");
 
@@ -257,8 +265,11 @@ namespace Blog.Engine.Repository
                 MySqlConnection conn = new MySqlConnection(_connString);
                 conn.Open();
 
-                logger.Debug("Vamos a ejecutar el siguiente qry [{0}]", QRY_GET_POSTS);
-                MySqlCommand cmd = new MySqlCommand(QRY_GET_POSTS, conn);
+                var QRY_RESULT = (rol == EnumRoles.EditorRol.ToString()) ? string.Format(QRY_GET_POSTS, " and status = 'Pending' ") : QRY_GET_POSTS;
+                logger.Debug("Vamos a ejecutar el siguiente qry [{0}]", QRY_RESULT);
+
+                MySqlCommand cmd = new MySqlCommand(QRY_RESULT, conn);
+
                 cmd.Prepare();
                 cmd.Parameters.AddWithValue("@paramAuthor", author);
 
@@ -407,6 +418,11 @@ namespace Blog.Engine.Repository
             return result;
         }
 
+        /// <summary>
+        /// Envia publicaciones de un escritor
+        /// </summary>
+        /// <param name="posts"></param>
+        /// <returns></returns>
         private int SubmitWriterPosts(Posts posts)
         {
             logger.Info("Iniciando servicio SubmitWriterPosts. Publicacion Id [{0}]", posts.PostsId);
@@ -487,7 +503,7 @@ namespace Blog.Engine.Repository
                                 result.Message = "Ocurrió  un error Insertando publicación del Autor" + author + "exitoso";
                             }
                             break;
-                        case EnumActionsPosts.EditPosts:
+                        case EnumActionsPosts.RejectPosts:
                             //Verifico que este en estado publicado
                             string status = this.GetStatusPost(posts.PostsId);
                             if (status == EnumStatePosts.Published.ToString() || status == EnumStatePosts.Submitted.ToString())
@@ -534,6 +550,121 @@ namespace Blog.Engine.Repository
             catch (Exception e)
             {
                 logger.Error("Error al obtener la lista de publicaciones publicados, Message [{0}] - StackTrace [{1}] ", e.Message, e.StackTrace);
+                throw;
+            }
+            logger.Info("Saliendo de servicio ProcessPostsResponse.");
+            return result;
+        }
+
+        /// <summary>
+        /// Aprueba una publicacion X
+        /// </summary>
+        /// <param name="posts"></param>
+        /// <returns></returns>
+        private int ApproveRejectEditorPosts(Posts posts, string status)
+        {
+            logger.Info("Iniciando servicio ApproveEditorPosts. Publicacion Id [{0}]", posts.PostsId);
+
+            int affectRow = 0;
+            try
+            {
+                MySqlConnection conn = new MySqlConnection(_connString);
+                conn.Open();
+
+                logger.Debug("Vamos a ejecutar el siguiente qry [{0}]", QRY_APPROVE_POSTS);
+                MySqlCommand cmd = new MySqlCommand(QRY_APPROVE_POSTS, conn);
+                cmd.Prepare();
+
+                cmd.Parameters.AddWithValue("@paramStatus", status);
+                cmd.Parameters.AddWithValue("@paramIdPosts", posts.PostsId);
+
+                affectRow = cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                logger.Error("Error al aprobar una publicacion del escritor [{0}], Message [{1}] - StackTrace [{2}] ", e.Message, e.StackTrace);
+                throw;
+            }
+
+            logger.Info("Saliendo del servicio ApproveEditorPosts. Publicacion Id [{0}]", posts.PostsId);
+            return affectRow;
+        }
+
+
+        /// <summary>
+        /// Procesa todas las acciones que puede ejecutar un Editor
+        /// </summary>
+        /// <param name="actionProcess">Accion recibida</param>
+        /// <param name="posts">publicacion recibida</param>
+        /// <param name="author">autor de la publicacion</param>
+        /// <returns></returns>
+        public ProcessPostsResponse ProcessPostsEditors(string actionProcess, Posts posts, string author)
+        {
+            logger.Info("Iniciando servicio ProcessPostsResponse.");
+
+            ProcessPostsResponse result = new ProcessPostsResponse();
+           
+            //Verifico que el autor sea un editor
+            var rol = this.GetRolesAuthor(author);
+            if (rol != EnumRoles.EditorRol.ToString())
+            {
+                result.State = ResultState.ERROR;
+
+                //aca lo ideal seria tener una libreria que se encargue del manejo de los mnesajes de error 
+                //por falta de tiempo coloco aca.
+                result.Message = " Autor con un Rol no válido.";
+            }
+
+            int affectRow = 0;
+            EnumActionsPosts enumValues;
+            try
+            {
+                if (Enum.TryParse(actionProcess, out enumValues))
+                {
+                    switch (enumValues)
+                    {
+                        case EnumActionsPosts.GetPosts:
+                            result.Details = this.GetListPosts(author, rol);
+                            result.State = ResultState.OK;
+                            result.Message = "Obteniendo listado de publicaciones del Autor" + author + "exitoso";
+                            break;
+                        case EnumActionsPosts.RejectPosts:
+                            affectRow = this.ApproveRejectEditorPosts(posts, EnumStatePosts.Reject.ToString());
+                            if (affectRow == 1)
+                            {
+                                this.AddCommentPosts(posts.PostsId, posts.Content);
+                                result.State = ResultState.OK;
+                                result.Message = "Insertando publicación del Autor" + author + "exitoso";
+                            }
+                            else
+                            {
+                                result.State = ResultState.ERROR;
+                                result.Message = "Ocurrió  un error Insertando publicación del Autor" + author + "exitoso";
+                            }
+                            break;
+                        case EnumActionsPosts.ApprovePosts:
+                            affectRow = this.ApproveRejectEditorPosts(posts, EnumStatePosts.Published.ToString());
+                            if (affectRow == 1)
+                            {
+                                result.State = ResultState.OK;
+                                result.Message = "Publicando publicación del Autor" + author + "exitoso";
+                            }
+                            else
+                            {
+                                result.State = ResultState.ERROR;
+                                result.Message = "Ocurrió  un error Publicando publicación del Autor" + author + "exitoso";
+                            }
+                            break;
+                         default:
+                            result.State = ResultState.ERROR;
+                            result.Message = "Acción recibida no válida";
+                            break;
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                logger.Error("Error al procesar laspublicaciones por el editor, Message [{0}] - StackTrace [{1}] ", e.Message, e.StackTrace);
                 throw;
             }
             logger.Info("Saliendo de servicio ProcessPostsResponse.");

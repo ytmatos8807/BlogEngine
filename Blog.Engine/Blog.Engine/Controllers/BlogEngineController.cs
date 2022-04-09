@@ -89,5 +89,31 @@ namespace Blog.Engine.Controllers
             }
             return response;
         }
+
+        /// <summary>
+        /// Procesa todas las acciones que puede ejecutar un Editor
+        /// </summary>
+        /// <param name="actionProcess">Accion recibida</param>
+        /// <param name="posts">publicacion recibida</param>
+        /// <param name="author">autor de la publicacion</param>
+        /// <returns></returns>
+        public HttpResponseMessage PostProcessEditor(string actionProcess, Posts posts, string author)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            try
+            {
+                ProcessPostsResponse result = new BlogEngineService().postprocesseditor(actionProcess, posts, author);
+                ProcessPostsResponseData data = new ProcessPostsResponseData();
+                data.Data = result;
+                response = Request.CreateResponse(System.Net.HttpStatusCode.OK, data);
+            }
+            catch (Exception e)
+            {
+                Error err = ErrorFactory.Build(e);
+                response = Request.CreateResponse((System.Net.HttpStatusCode)422, err);
+                return response;
+            }
+            return response;
+        }
     }
 }

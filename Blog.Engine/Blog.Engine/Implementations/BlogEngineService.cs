@@ -22,5 +22,10 @@ namespace Blog.Engine.Implementations
         {
             return new ImplementacionAPIBlog().ProcessPostsWriter(actionProcess, posts, author);
         }
+
+        public ProcessPostsResponse postprocesseditor(string actionProcess, Posts posts, string author)
+        {
+            return new ImplementacionAPIBlog().ProcessPostsEditors(actionProcess, posts, author);
+        }
     }
 }

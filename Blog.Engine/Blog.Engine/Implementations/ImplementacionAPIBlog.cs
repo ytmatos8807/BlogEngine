@@ -85,5 +85,27 @@ namespace Blog.Engine.Implementations
             }
             return result;
         }
+
+        /// <summary>
+        /// Procesa todas las acciones que puede ejecutar un Editor
+        /// </summary>
+        /// <param name="actionProcess">Accion recibida</param>
+        /// <param name="posts">publicacion recibida</param>
+        /// <param name="author">autor de la publicacion</param>
+        /// <returns></returns>
+        public ProcessPostsResponse ProcessPostsEditors(string actionProcess, Posts posts, string author)
+        {
+            ProcessPostsResponse result = new ProcessPostsResponse();
+            try
+            {
+                result = blogRepositorio.ProcessPostsEditors(actionProcess, posts, author);
+            }
+            catch (Exception e)
+            {
+                logger.Error("Error al procesar las publicacions de un escritor, Message [{0}] - StackTrace [{1}] ", e.Message, e.StackTrace);
+                throw;
+            }
+            return result;
+        }
     }
 }
