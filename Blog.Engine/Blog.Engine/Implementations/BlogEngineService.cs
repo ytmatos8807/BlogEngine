@@ -12,5 +12,10 @@ namespace Blog.Engine.Implementations
         {
             return new ImplementacionAPIBlog().GetListPublishedPosts();
         }
+
+        public Result post(int postsId, string comment)
+        {
+            return new ImplementacionAPIBlog().AddCommentPosts(postsId, comment);
+        }
     }
 }

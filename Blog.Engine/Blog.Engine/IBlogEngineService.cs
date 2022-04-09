@@ -9,5 +9,6 @@ namespace Blog.Engine
     interface IBlogEngineService
     {
         List<Posts> get();
+        Result post(int postsId, string comment);
     }
 }

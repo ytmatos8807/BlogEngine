@@ -178,7 +178,6 @@ C:\Users\roshka\Documents\GitHub\BlogEngine\Blog.Engine\Blog.Engine\bin\System.W
 C:\Users\roshka\Documents\GitHub\BlogEngine\Blog.Engine\Blog.Engine\bin\System.Web.WebPages.Razor.xml
 C:\Users\roshka\Documents\GitHub\BlogEngine\Blog.Engine\Blog.Engine\bin\Antlr3.Runtime.pdb
 C:\Users\roshka\Documents\GitHub\BlogEngine\Blog.Engine\Blog.Engine\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\roshka\Documents\GitHub\BlogEngine\Blog.Engine\Blog.Engine\obj\Debug\Blog.Engine.csprojAssemblyReference.cache
 C:\Users\roshka\Documents\GitHub\BlogEngine\Blog.Engine\Blog.Engine\obj\Debug\Blog.Engine.csproj.CoreCompileInputs.cache
 C:\Users\roshka\Documents\GitHub\BlogEngine\Blog.Engine\Blog.Engine\obj\Debug\Blog.Engine.csproj.CopyComplete
 C:\Users\roshka\Documents\GitHub\BlogEngine\Blog.Engine\Blog.Engine\obj\Debug\Blog.Engine.dll

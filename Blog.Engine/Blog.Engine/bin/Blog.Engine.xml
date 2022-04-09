@@ -19,6 +19,16 @@
             Obtiene el estado de una publicacion X
             </summary>
         </member>
+        <member name="F:Blog.Engine.Repository.BlogEngineRepositorio.QRY_POST_COMMENT">
+            <summary>
+            Inserta comentario a una publicacion publicada
+            </summary>
+        </member>
+        <member name="F:Blog.Engine.Repository.BlogEngineRepositorio.QRY_GET_POSTS">
+            <summary>
+            Obtiene una lista de publicaciones 
+            </summary>
+        </member>
         <member name="M:Blog.Engine.Repository.BlogEngineRepositorio.GetListPublishedPosts">
             <summary>
             Obteniendo la lista de publicaciones publicadas sin restriccion de rol
@@ -37,6 +47,28 @@
             Obtiene el estado de una publicacion dada
             </summary>
             <param name="postId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Blog.Engine.Repository.BlogEngineRepositorio.AddCommentPosts(System.Int32,System.String)">
+            <summary>
+            Insertando comentario en una publicacion X
+            </summary>
+            <param name="postsId">id de la publicacion</param>
+            <param name="comment">comentario a insertar</param>
+            <returns></returns>
+        </member>
+        <member name="M:Blog.Engine.Repository.BlogEngineRepositorio.GetListPosts(System.String)">
+            <summary>
+            Obteniendo el listado de publicaciones del escritor
+            </summary>
+            <param name="author"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Blog.Engine.Repository.BlogEngineRepositorio.AddWriterPosts(Blog.Engine.Base.Posts)">
+            <summary>
+            Inserta una publicacion
+            </summary>
+            <param name="posts">publicacion recivida</param>
             <returns></returns>
         </member>
     </members>

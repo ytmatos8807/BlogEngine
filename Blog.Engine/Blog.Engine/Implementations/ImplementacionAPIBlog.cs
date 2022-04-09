@@ -38,5 +38,20 @@ namespace Blog.Engine.Implementations
             }
             return result;
         }
+
+        public Result AddCommentPosts(int postsId, string comment)
+        {
+            Result result = new Result();
+            try
+            {
+                result = blogRepositorio.AddCommentPosts(postsId, comment);
+            }
+            catch (Exception e)
+            {
+                logger.Error("Error al insertar comenario en publicacions publicadas, Message [{0}] - StackTrace [{1}] ", e.Message, e.StackTrace);
+                throw;
+            }
+            return result;
+        }
     }
 }

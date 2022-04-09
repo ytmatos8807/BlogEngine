@@ -31,5 +31,25 @@ namespace Blog.Engine.Controllers
             }
             return response;
         }
+
+        [HttpPost()]
+        public HttpResponseMessage Post(int postsId, string comment)
+        {
+            HttpResponseMessage response = new HttpResponseMessage();
+            try
+            {
+                Result result = new BlogEngineService().post(postsId, comment);
+                CommentData data = new CommentData();
+                data.Data = result;
+                response = Request.CreateResponse(System.Net.HttpStatusCode.OK, data);
+            }
+            catch (Exception e)
+            {
+                Error err = ErrorFactory.Build(e);
+                response = Request.CreateResponse((System.Net.HttpStatusCode)422, err);
+                return response;
+            }
+            return response;
+        }
     }
 }
