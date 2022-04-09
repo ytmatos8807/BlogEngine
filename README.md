@@ -13,3 +13,4 @@ The Technologies used:
  
  The credentials for the connection to the MYSQL database are as follows:
  
+ ![alt text](https://github.com/ytmatos8807/BlogEngine/blob/main/Util/IMG/ConnectionString.JPG)
