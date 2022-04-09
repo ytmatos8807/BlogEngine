@@ -1,5 +1,5 @@
-# BlogEngine
-Build a RESTful API for a blog engine.
+# Blog.Engine.FE
+FrontEnd de blog Engine
 
 Web Api that allows you to create, edit, and publish text-based posts, with an approval flow in which they can interact
 two different types of users. the total hours used in the total development of the project, since the creation of the bookstore
@@ -37,7 +37,9 @@ The Technologies used:
   
   $ git clone https://github.com/ytmatos8807/BlogEngine.git
   
-  
+ 
+*  To configure the server address on the front you must edit the appsettings.json file 
+ 
  To view the application in the browser and the swagger go to the url:  
   
  url swagger -  https://localhost:44362/swagger/ui/index
@@ -47,4 +49,3 @@ The Technologies used:
  url front - https://localhost:44318/
   
   
- 
