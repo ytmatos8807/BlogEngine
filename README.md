@@ -18,6 +18,23 @@ The Technologies used:
  
  In the api webconfig the connectionStrings is already configured:
  
- ![alt text](https://github.com/ytmatos8807/BlogEngine/blob/main/Util/IMG/ConnectionString.JPG)
+  ![alt text](https://github.com/ytmatos8807/BlogEngine/blob/main/Util/IMG/ConnectionString.JPG)
  
- The database script and postamn collection are located within the project in the following location:
+  * The database script and postamn collection are located within the project in the following location:
+ 
+   ![alt text](https://github.com/ytmatos8807/BlogEngine/blob/main/Util/IMG/Utils.JPG)
+  
+  * Projects are located in the following repositories:
+  
+  https://github.com/ytmatos8807/BlogEngine
+  
+  https://github.com/ytmatos8807/Blog.Engine.Base
+  
+ To view the application in the browser and the swagger go to the url:  
+  
+ url swagger -  https://localhost:44362/swagger/ui/index
+  
+ url api - https://localhost:44362/
+  
+  
+ 
