@@ -35,6 +35,11 @@ namespace Blog.Engine.Repository
         /// Obtiene el estado de una publicacion X
         /// </summary>
         private const string QRY_GET_STATUS_POSTS = " SELECT status  FROM blog_engine.posts where id_posts = @paramId ";
+
+        /// <summary>
+        /// Inserta comentario a una publicacion publicada
+        /// </summary>
+        private const string QRY_POST_COMMENT = " INSERT INTO `blog_engine`.`comment` (`content`, `id_posts`) VALUES (@paramComment,  @paramIdPosts) ";
         #endregion
 
         /// <summary>
@@ -155,12 +160,50 @@ namespace Blog.Engine.Repository
             return result;
         }
 
-        //public Resultado 
-        //(postsId, comment)
-        //    //insert del comentario
+        /// <summary>
+        /// Insertando comentario en una publicacion X
+        /// </summary>
+        /// <param name="postsId">id de la publicacion</param>
+        /// <param name="comment">comentario a insertar</param>
+        /// <returns></returns>
+        public Result AddCommentPosts(int postsId, string comment)
+        {
+            logger.Info("Iniciando servicio AddCommentPosts. Publicacion Id [{0}]", postsId);
 
-        //    //verificar que publicacion este en estado comentada
-        //    //
+            Result result = new Result();
+            try
+            {
+                //Verifico que este en estado publicado
+                string status = this.GetStatusPost(postsId);
+                if (status != EnumStatePosts.Published.ToString())
+                {
+                    result.State = ResultState.ERROR;
 
+                      //aca lo ideal seria tener una libreria que se encargue del manejo de los mnesajes de error 
+                      //por falta de tiempo coloco aca.
+                    result.Message = " Publicación en Estado no válido para añadir un comentario"; 
+                    return result;
+                }
+
+                MySqlConnection conn = new MySqlConnection(_connString);
+                conn.Open();
+
+                logger.Debug("Vamos a ejecutar el siguiente qry [{0}]", QRY_GET_STATUS_POSTS);
+                MySqlCommand cmd = new MySqlCommand(QRY_GET_STATUS_POSTS, conn);
+                cmd.Prepare();
+                cmd.Parameters.AddWithValue("@paramComment", comment);
+                cmd.Parameters.AddWithValue("@paramIdPosts", postsId);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                logger.Error("Error al insertar un comentario en la publicacion  [{0}], Message [{1}] - StackTrace [{2}] ", e.Message, e.StackTrace);
+                throw;
+            }
+
+            logger.Info("Saliendo del servicio AddCommentPosts. Publicacion Id [{0}]", postsId);
+            return result;
+
+        }
     }
 }
