@@ -33,9 +33,7 @@ namespace Blog.Engine
                         // additional fields by chaining methods off SingleApiVersion.
                         //
                         c.SingleApiVersion("v1", "Blog.Engine")
-                        .Description(" RESTful API for a blog engine using .NET....")
-                            .Contact(x => x
-                                .Name("Yulissa Torres")); 
+                        .Description(" RESTful API for a blog engine using .NET....");
 
                         // If you want the output Swagger docs to be indented properly, enable the "PrettyPrint" option.
                         //

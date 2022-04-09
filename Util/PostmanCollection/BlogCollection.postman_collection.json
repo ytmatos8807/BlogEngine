@@ -1,0 +1,25 @@
+{
+	"info": {
+		"_postman_id": "d235d3fd-506a-4c83-b192-5770ce04a3c8",
+		"name": "BlogCollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetPostsPublished",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "PostComment",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}

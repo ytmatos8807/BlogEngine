@@ -232,11 +232,21 @@ namespace Blog.Engine.Repository
                 logger.Debug("Vamos a ejecutar el siguiente qry [{0}]", QRY_POST_COMMENT);
 
                 var QRY_RESULT = (status == EnumStatePosts.Reject.ToString()) ? string.Format(QRY_POST_COMMENT, " and comment_reject = 'S' ") : QRY_POST_COMMENT;
+              
                 MySqlCommand cmd = new MySqlCommand(QRY_RESULT, conn);
-                cmd.Prepare();
                 cmd.Parameters.AddWithValue("@paramComment", comment);
                 cmd.Parameters.AddWithValue("@paramIdPosts", postsId);
-                cmd.ExecuteNonQuery();
+                int affectRow = cmd.ExecuteNonQuery();
+                if (affectRow == 1)
+                {
+                    result.State = ResultState.OK;
+                    result.Message = "Insertando comentario de publicación exitoso";
+                }
+                else
+                {
+                    result.State = ResultState.ERROR;
+                    result.Message = "Ocurrió  un error Insertando comentario de la publicación exitoso";
+                }
             }
             catch (Exception e)
             {
